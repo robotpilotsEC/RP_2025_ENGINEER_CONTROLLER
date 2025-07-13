@@ -10,7 +10,7 @@
       <TargetName>DM-MC02</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pCCUsed>6210000::V6.21::ARMCLANG</pCCUsed>
+      <pCCUsed>6220000::V6.22::ARMCLANG</pCCUsed>
       <uAC6>1</uAC6>
       <TargetOption>
         <TargetCommonOption>
@@ -470,16 +470,6 @@
               <FilePath>..\..\..\Applications\Module\Custom_Controller\com_roll.cpp</FilePath>
             </File>
             <File>
-              <FileName>com_stretch.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\..\..\Applications\Module\Custom_Controller\com_stretch.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>com_traverse.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\..\..\Applications\Module\Custom_Controller\com_traverse.cpp</FilePath>
-            </File>
-            <File>
               <FileName>com_yaw.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\..\..\Applications\Module\Custom_Controller\com_yaw.cpp</FilePath>
@@ -493,6 +483,26 @@
               <FileName>proc_controller.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\..\..\Applications\Module\Custom_Controller\proc_controller.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>com_pitch1.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\..\Applications\Module\Custom_Controller\com_pitch1.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>com_pitch2.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\..\Applications\Module\Custom_Controller\com_pitch2.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>com_roll_end.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\..\Applications\Module\Custom_Controller\com_roll_end.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>com_pitch_end.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\..\Applications\Module\Custom_Controller\com_pitch_end.cpp</FilePath>
             </File>
           </Files>
         </Group>

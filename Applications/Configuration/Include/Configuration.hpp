@@ -59,31 +59,12 @@ enum class EDeviceID{
     DEV_LASER_L,            ///< 激光雷达左
     DEV_LASER_R,             ///< 激光雷达右
     DEV_MEMS_BMI088,        ///< 6轴MEMS（BMI-088）
-    DEV_CHAS_MTR_LF,        ///< 底盘电机前左（M3508）
-    DEV_CHAS_MTR_RF,        ///< 底盘电机前右（M3508）
-    DEV_CHAS_MTR_LB,        ///< 底盘电机后左（M3508）
-    DEV_CHAS_MTR_RB,        ///< 底盘电机后右（M3508）
-    DEV_GIMBAL_MTR_LIFT_L,  ///< 云台电机升降左（M2006）
-    DEV_GIMBAL_MTR_LIFT_R,  ///< 云台电机升降右（M2006）
-    DEV_MANTIS_MTR_FORELEG_L,   ///< 螳螂臂前肢电机左（KT-4010）
-    DEV_MANTIS_MTR_FORELEG_R,   ///< 螳螂臂前肢电机右（KT-4010）
-    DEV_MANTIS_MTR_MIDLEG,      ///< 螳螂臂中肢电机（M2006）
-    DEV_MANTIS_MTR_HINDLEG_L,   ///< 螳螂臂后肢电机左（KT-4010）
-    DEV_MANTIS_MTR_HINDLEG_R,   ///< 螳螂臂后肢电机右（KT-4010）
-    DEV_GANTRY_MTR_LIFT_L,      ///< 龙门架升降电机左（M3508）
-    DEV_GANTRY_MTR_LIFT_R,      ///< 龙门架升降电机右（M3508)
-    DEV_GANTRY_MTR_STRETCH,     ///< 龙门架伸缩电机（M2006）
-    DEV_GANTRY_MTR_TRAVERSE,    ///< 龙门架横移电机（M2006）
-    DEV_GANTRY_MTR_JOINT_YAW,   ///< 龙门架关节yaw电机（DM4310）
-    DEV_GANTRY_MTR_JOINT_ROLL,  ///< 龙门架关节roll电机（DM4310）
-    DEV_GANTRY_MTR_END_L,   ///< 龙门架末端电机左（M2006）
-    DEV_GANTRY_MTR_END_R,   ///< 龙门架末端电机右（M2006）
-    DEV_CONTROLLER_MTR_TRAVERSE,    ///< 控制器横移电机（M2006）
-    DEV_CONTROLLER_MTR_STRETCH,     ///< 控制器前伸电机（M2006）
-    DEV_CONTROLLER_MTR_YAW,         ///< 控制器Yaw电机（M2006）
-    DEV_CONTROLLER_MTR_ROLL,        ///< 控制器滚轴电机（M2006）
-
-
+    DEV_CONTROLLER_MTR_YAW,         ///< 控制器横移电机（M6020）
+    DEV_CONTROLLER_MTR_PITCH1,      ///< 控制器前伸电机（DM4310）
+    DEV_CONTROLLER_MTR_PITCH2,      ///< 控制器Yaw电机（DM4310）
+    DEV_CONTROLLER_MTR_ROLL,        ///< 控制器滚轴电机（M3508）
+    DEV_CONTROLLER_MTR_ROLL_END,    ///< 控制器末端滚轴电机（M3508）
+    DEV_CONTROLLER_MTR_PITCH_END ,  ///< 控制器末端Pitch电机（M3508）
 };
 
 /**

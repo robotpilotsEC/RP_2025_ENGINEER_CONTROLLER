@@ -29,11 +29,12 @@ EAppStatus CModController::InitModule(SModInitParam_Base &param) {
 	moduleID = controllerParam.moduleID;
 
 	// 初始化控制器组件
-	comTraverse_.InitComponent(param);
-	comStretch_.InitComponent(param);
+	comPitchEnd_.InitComponent(param);
 	comYaw_.InitComponent(param);
+	comPitch1_.InitComponent(param);
+	comPitch2_.InitComponent(param);
 	comRoll_.InitComponent(param);
-	comRocker_.InitComponent(param);
+	// comRocker_.InitComponent(param);
 	comBuzzer_.InitComponent(param);
 
 
@@ -59,31 +60,33 @@ void CModController::UpdateHandler_() {
 	if (moduleStatus == APP_RESET) return ;
 
 	// 更新组件
-	comTraverse_.UpdateComponent();
-	comStretch_.UpdateComponent();
+	comPitch1_.UpdateComponent();
+	comPitch2_.UpdateComponent();
 	comYaw_.UpdateComponent();
 	comRoll_.UpdateComponent();
-	comRocker_.UpdateComponent();
+	comPitchEnd_.UpdateComponent();
+	// comRocker_.UpdateComponent();
 	comBuzzer_.UpdateComponent();
 
 	// 更新模块信息
-	ControllerInfo.rocker_X = -static_cast<int8_t>(comRocker_.rockerInfo.X / (CONTROLLER_ROCKER_RANGE / 2.0f) * 100.0f);
-	ControllerInfo.rocker_Y = -static_cast<int8_t>(comRocker_.rockerInfo.Y / (CONTROLLER_ROCKER_RANGE / 2.0f) * 100.0f);
-	ControllerInfo.rocker_Key = comRocker_.rockerInfo.Key_status;
-	ControllerInfo.angle_yaw = CModController::CComYaw::MtrPositToPhyPosit(comYaw_.yawInfo.posit);
-	ControllerInfo.posit_traverse = comTraverse_.MtrPositToPhyPosit(comTraverse_.traverseInfo.posit);
-	ControllerInfo.posit_stretch = comStretch_.MtrPositToPhyPosit(comStretch_.stretchInfo.posit);
-	ControllerInfo.speed_roll = -static_cast<int8_t>(comRoll_.rollInfo.speed / CONTROLLER_ROLL_SPEED_MAX * 100.0f);
+	// ControllerInfo.rocker_X = -static_cast<int8_t>(comRocker_.rockerInfo.X / (CONTROLLER_ROCKER_RANGE / 2.0f) * 100.0f);
+	// ControllerInfo.rocker_Y = -static_cast<int8_t>(comRocker_.rockerInfo.Y / (CONTROLLER_ROCKER_RANGE / 2.0f) * 100.0f);
+	// ControllerInfo.rocker_Key = comRocker_.rockerInfo.Key_status;
+	ControllerInfo.posit_yaw = CModController::CComYaw::MtrPositToPhyPosit(comYaw_.yawInfo.posit);
+	ControllerInfo.posit_pitch1 = comPitch1_.pitch1Info.posit;
+	ControllerInfo.posit_pitch2 = comPitch2_.pitch2Info.posit;
+	ControllerInfo.posit_roll = CModController::CComRoll::MtrPositToPhyPosit(comRoll_.rollInfo.posit);
+	ControllerInfo.posit_pitch_end = CModController::CComPitchEnd::MtrPositToPhyPosit(comPitchEnd_.pitchEndInfo.posit);
 
 	
 
 	// 填充电机发送缓冲区
-	CDevMtrDJI::FillCanTxBuffer(comTraverse_.motor[0],
-							   comTraverse_.mtrCanTxNode_[0]->dataBuffer,
-							   comTraverse_.mtrOutputBuffer[0]);
-	CDevMtrDJI::FillCanTxBuffer(comStretch_.motor[0],
-							   comStretch_.mtrCanTxNode_[0]->dataBuffer,
-							   comStretch_.mtrOutputBuffer[0]);
+	CDevMtrDJI::FillCanTxBuffer(comRoll_.motor[0],
+							   comRoll_.mtrCanTxNode_[0]->dataBuffer,
+							   comRoll_.mtrOutputBuffer[0]);
+	CDevMtrDJI::FillCanTxBuffer(comPitchEnd_.motor[0],
+							   comPitchEnd_.mtrCanTxNode_[0]->dataBuffer,
+							   comPitchEnd_.mtrOutputBuffer[0]);
 	CDevMtrDJI::FillCanTxBuffer(comYaw_.motor[0],
 							   comYaw_.mtrCanTxNode_[0]->dataBuffer,
 							   comYaw_.mtrOutputBuffer[0]);
@@ -125,12 +128,17 @@ EAppStatus CModController::RestrictControllerCommand_() {
 	}
 
 	// 限制控制器各模块的控制命令大小
-	ControllerCmd.cmd_traverse = 
-		std::clamp(ControllerCmd.cmd_traverse, 0.0f, CONTROLLER_TRAVERSE_PHYSICAL_RANGE);
-	ControllerCmd.cmd_stretch =
-		std::clamp(ControllerCmd.cmd_stretch, 0.0f, CONTROLLER_STRETCH_PHYSICAL_RANGE);
-	ControllerCmd.cmd_yaw =
+	ControllerCmd.cmd_yaw = 
 		std::clamp(ControllerCmd.cmd_yaw, -CONTROLLER_YAW_PHYSICAL_RANGE_MIN, CONTROLLER_YAW_PHYSICAL_RANGE_MAX);
+	ControllerCmd.cmd_pitch1 = 
+		std::clamp(ControllerCmd.cmd_pitch1, 0.0f, CONTROLLER_PITCH1_PHYSICAL_RANGE);
+	ControllerCmd.cmd_pitch2 =
+		std::clamp(ControllerCmd.cmd_pitch2, 0.0f, CONTROLLER_PITCH2_PHYSICAL_RANGE);
+	ControllerCmd.cmd_roll =
+		std::clamp(ControllerCmd.cmd_roll, 0.0f, CONTROLLER_ROLL_PHYSICAL_RANGE);
+	ControllerCmd.cmd_pitch_end =
+		std::clamp(ControllerCmd.cmd_roll_end, 0.0f, CONTROLLER_PITCH_END_PHYSICAL_RANGE);
+
 	return APP_OK;
 
 }

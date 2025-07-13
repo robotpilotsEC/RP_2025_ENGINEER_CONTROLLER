@@ -24,7 +24,7 @@ namespace my_engineer {
  * @brief 控制器通信设备类
  * 
  */
-class CDevControllerLink final: public CDevBase{
+class CDevControllerLink final: public CDevBase {
 public:
 
 	// 定义控制器通信设备初始化参数结构体
@@ -36,6 +36,7 @@ public:
 		ID_NULL = 0,
 		ID_CONTROLLER_DATA,
 		ID_ROBOT_DATA,
+		ID_CHOSELEVEL_DATA,
 	};
 
 	struct SPkgHeader {
@@ -50,14 +51,17 @@ public:
 		SPkgHeader header;
 		bool controller_OK = 0; ///< 控制器状态
 		bool return_success = 0; ///< 归位成功标志
-		int8_t rocker_X = 0; ///< 摇杆X轴值
-		int8_t rocker_Y = 0; ///< 摇杆Y轴值
-		uint8_t rocker_Key = 0; ///< 摇杆按键状态
-		float_t posit_traverse = 0; ///< 横移电机位置
-		float_t posit_stretch = 0; ///< 前伸电机位置
-		float_t angle_yaw = 0; ///< Yaw角度位置
-		int8_t speed_roll = 0; ///< Roll电机速度
-		int8_t reserved[12] = {0}; ///< 保留字段
+		/*-----------maybe it will use-----------------*/
+		// int8_t rocker_X = 0; ///< 摇杆X轴值
+		// int8_t rocker_Y = 0; ///< 摇杆Y轴值
+		// uint8_t rocker_Key = 0; ///< 摇杆按键状态
+		float_t angle_yaw = 0; ///< yaw角度位置
+		float_t angle_pitch1 = 0; ///< Pitch1角度位置
+		float_t angle_pitch2 = 0; ///< Pitch2角度位置
+		float_t angle_roll = 0; ///< roll电机位置
+		float_t angle_pitch_end = 0; ///< 末端Pitch角度位置
+		float_t angle_roll_end = 0; ///< 末端Roll角度位置
+		int8_t reserved[4] = {0}; ///< 保留字段
 		uint16_t CRC16 = 0x0000; ///< CRC16校验
 	} __packed controllerData_info_pkg = { };
 
@@ -66,15 +70,29 @@ public:
 		bool ask_reset_flag = 0; ///< 要求复位标志
 		bool controlled_by_controller = 0; ///< 是否被控制器控制
 		bool ask_return_flag = 0; ///< 要求归位标志
-		float_t posit_traverse = 0; ///< 横移电机位置
-		float_t posit_stretch = 0; ///< 前伸电机位置
-		float_t posit_lift = 0; ///< 升降电机位置
-		float_t angle_yaw = 0; ///< Yaw电机位置
-		float_t angle_roll = 0; ///< Roll电机位置
-		float_t angle_pitch = 0; ///< Pitch电机位置
-		int8_t reserved[1] = {0}; ///< 保留字段
+		float_t angle_yaw = 0; ///< yaw角度位置
+		float_t angle_pitch1 = 0; ///< Pitch1角度位置
+		float_t angle_pitch2 = 0; ///< Pitch2角度位置
+		float_t angle_roll = 0; ///< roll电机位置
+		float_t angle_pitch_end = 0; ///< 末端Pitch角度位置
+		float_t angle_roll_end = 0; ///< 末端Roll角度位置
+		int8_t reserved[3] = {0}; ///< 保留字段
 		uint16_t CRC16 = 0x0000; ///< CRC16校验
 	} __packed robotData_info_pkg = { };
+
+	/*for chose level*/
+	struct SChoseLevelDataPkg {
+		SPkgHeader header;
+		uint8_t Key_value1;
+		uint8_t Key_value2;
+		uint16_t x_position:12;
+    uint16_t mouse_left:4;
+    uint16_t y_position:12;
+    uint16_t mouse_right:4;
+		int8_t reserved[1] = {0}; 
+		uint16_t CRC16 = 0x0000;
+	}__packed choseLevelData_info_pkg = { };
+	
 
 	enum class EControllerLinkStatus {
 		RESET,
@@ -82,7 +100,16 @@ public:
 		ONLINE,
 	} controllerLinkStatus = EControllerLinkStatus::RESET;
 
-	CDevControllerLink() {deviceType = EDevType::DEV_CONTROLLER_LINK; }
+	/*Please increase or decrease difficulty based on the season  */
+	enum class EOreDifficultyLevel {
+		NONE,
+		FIRST,
+		SECOND,
+		THIRD,
+		FOURTH,
+	} oreDifficultyLevel = EOreDifficultyLevel::NONE;
+
+	CDevControllerLink() { deviceType = EDevType::DEV_CONTROLLER_LINK; }
 
 	EAppStatus InitDevice(const SDevInitParam_Base *pStructInitParam) override;
 
@@ -102,6 +129,34 @@ private:
 
 	EAppStatus ResolveRxPackage_();
 };
+
+/*--------------------------------Key-Value Mapping Table---------------------------------------------*/
+#define A_KEY_VALUE 65
+#define B_KEY_VALUE 66
+#define C_KEY_VALUE 67
+#define D_KEY_VALUE 68
+#define E_KEY_VALUE 69
+#define F_KEY_VALUE 70
+#define G_KEY_VALUE 71
+#define H_KEY_VALUE 72
+#define I_KEY_VALUE 73
+#define J_KEY_VALUE 74
+#define K_KEY_VALUE 75
+#define L_KEY_VALUE 76
+#define M_KEY_VALUE 77
+#define N_KEY_VALUE 78
+#define O_KEY_VALUE 79
+#define P_KEY_VALUE 80
+#define Q_KEY_VALUE 81
+#define R_KEY_VALUE 82
+#define S_KEY_VALUE 83
+#define T_KEY_VALUE 84
+#define U_KEY_VALUE 85
+#define V_KEY_VALUE 86
+#define W_KEY_VALUE 87
+#define X_KEY_VALUE 88
+#define Y_KEY_VALUE 89
+#define Z_KEY_VALUE 90
 
 } // namespace my_engineer
 

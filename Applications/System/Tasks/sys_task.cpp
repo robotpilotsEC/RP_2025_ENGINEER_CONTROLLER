@@ -35,21 +35,23 @@ void StartMonitorTask(void *argument) {
     while (true) {
         usb->FormatTransmit(
                 "---------------------------------------------\r\n"
-                "REAL_X: %d , REAL_Y: %d\r\n"
-                "Rocker_X: %d , Rocker_Y: %d\r\n"
-                "Rocker_Key: %d\r\n"
-                "posit_stretch: %.2f , posit_traverse: %.2f\r\n"
-                "angle_yaw: %.2f , speed_roll: %d\r\n"
+                // "REAL_X: %d , REAL_Y: %d\r\n"
+                // "Rocker_X: %d , Rocker_Y: %d\r\n"
+                // "Rocker_Key: %d\r\n"
+                "angle_pitch1: %.2f , angle_pitch2: %.2f\r\n"
+                "angle_yaw: %.2f , angle_roll: %.2f\r\n"
+                "angle_pitch_end: %.2f\r\n"
                 "controlled_by_controller: %d\r\n",
-                controller->get_rocker_x(),
-                controller->get_rocker_y(),
-                SysControllerLink.controllerInfo.Rocker_X,
-                SysControllerLink.controllerInfo.Rocker_Y,
-                static_cast<int8_t>(SysControllerLink.controllerInfo.Rocker_Key),
-                SysControllerLink.controllerInfo.posit_stretch,
-                SysControllerLink.controllerInfo.posit_traverse,
+                // controller->get_rocker_x(),
+                // controller->get_rocker_y(),
+                // SysControllerLink.controllerInfo.Rocker_X,
+                // SysControllerLink.controllerInfo.Rocker_Y,
+                // static_cast<int8_t>(SysControllerLink.controllerInfo.Rocker_Key),
+                SysControllerLink.controllerInfo.angle_pitch1,
+                SysControllerLink.controllerInfo.angle_pitch2,
                 SysControllerLink.controllerInfo.angle_yaw,
-                SysControllerLink.controllerInfo.speed_roll,
+                SysControllerLink.controllerInfo.angle_roll,
+                SysControllerLink.controllerInfo.angle_pitch_end,
                 static_cast<int8_t>(SysControllerLink.robotInfo.controlled_by_controller)
             );
         proc_waitMs(500);
@@ -100,10 +102,8 @@ void StartUpdateTask(void *argument) {
         }
 
         // 执行can发送
-        TxNode_Can1_280.Transmit();
-        TxNode_Can2_280.Transmit();
-        TxNode_Can1_200.Transmit();
-        TxNode_Can2_200.Transmit();
+        // TxNode_Can1_200.Transmit();
+        // TxNode_Can2_200.Transmit();
         // TxNode_Can2_1FF.Transmit();
 
         proc_waitMs(1); // 1000Hz

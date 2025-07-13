@@ -26,6 +26,14 @@ CInfCAN::CCanTxNode TxNode_Can3_1FF;
 CInfCAN::CCanTxNode TxNode_Can3_3FE;
 CInfCAN::CCanTxNode TxNode_Can3_280;
 
+/*The following is designed by user in the upper computer*/
+CInfCAN::CCanTxNode MitTxNode_Can1_30;
+CInfCAN::CCanTxNode MitTxNode_Can1_32;
+CInfCAN::CCanTxNode MitTxNode_Can2_30;
+CInfCAN::CCanTxNode MitTxNode_Can2_32;
+CInfCAN::CCanTxNode MitTxNode_Can3_30;
+CInfCAN::CCanTxNode MitTxNode_Can3_32;
+
 EAppStatus InitAllCanTxNode()
 {
     TxNode_Can1_200.InitTxNode(EInterfaceID::INF_CAN1, 0x200, 
@@ -63,6 +71,22 @@ EAppStatus InitAllCanTxNode()
 
     TxNode_Can3_280.InitTxNode(EInterfaceID::INF_CAN3, 0x280,
                                 CInfCAN::ECanFrameType::DATA, CInfCAN::ECanFrameDlc::DLC_8);
+
+/*----------------------------------------------MIT CANTX ID !!!!!!------------------------------------------------------------*/    
+    MitTxNode_Can1_30.InitTxNode(EInterfaceID::INF_CAN1, 0x30,
+                                CInfCAN::ECanFrameType::DATA, CInfCAN::ECanFrameDlc::DLC_8);
+    MitTxNode_Can1_32.InitTxNode(EInterfaceID::INF_CAN1, 0x32,
+                                CInfCAN::ECanFrameType::DATA, CInfCAN::ECanFrameDlc::DLC_8);    
+    MitTxNode_Can2_30.InitTxNode(EInterfaceID::INF_CAN2, 0x30,
+                                CInfCAN::ECanFrameType::DATA, CInfCAN::ECanFrameDlc::DLC_8);
+    MitTxNode_Can2_32.InitTxNode(EInterfaceID::INF_CAN2, 0x32,
+                                CInfCAN::ECanFrameType::DATA, CInfCAN::ECanFrameDlc::DLC_8);
+    MitTxNode_Can3_30.InitTxNode(EInterfaceID::INF_CAN3, 0x30,
+                                CInfCAN::ECanFrameType::DATA, CInfCAN::ECanFrameDlc::DLC_8);
+    MitTxNode_Can3_32.InitTxNode(EInterfaceID::INF_CAN3, 0x32,
+                                CInfCAN::ECanFrameType::DATA, CInfCAN::ECanFrameDlc::DLC_8);
+
+
 																
 	return APP_OK;
 }

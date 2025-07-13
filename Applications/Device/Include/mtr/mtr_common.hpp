@@ -46,7 +46,7 @@ public:
         MTR_DM4310,     ///< DM4310电机
         MTR_M2006,      ///< M2006电机
         MTR_M3508,      ///< M3508电机
-        MTR_RM6020,     ///< RM6020电机
+        MTR_M6020,     ///< RM6020电机
         MTR_KT4010,     ///< KT4010电机
     }motorType = EMotorType::MTR_UNDEF;
 
@@ -68,16 +68,29 @@ public:
      * 
      */
     enum EMotorDataType {
-        DATA_UNDEF = -1, ///< 未定义数据
-        DATA_SPEED = 0, ///< 电机速度
-        DATA_ANGLE,    ///< 电机角度
-        DATA_POSIT,   ///< 电机位置
-        DATA_TORQUE, ///< 电机转矩
-        DATA_VOLTAGE, ///< 电机电压
-        DATA_CURRENT, ///< 电机电流
-        DATA_TEMP,   ///< 电机温度
-        DATA_COUNT_, ///< 数据类型数量
+    DATA_UNDEF = -1,
+    DATA_SPEED = 0,
+    DATA_ANGLE,
+    DATA_POSIT,
+    DATA_TORQUE,
+    DATA_VOLTAGE,
+    DATA_CURRENT,
+    DATA_TEMP,
+    DATA_ROTOR_TEMP,  ///< Only for DM motor
+    DATA_MOS_TEMP,    ///< Only for DM motor
+    DATA_ID,         ///< Motor ID.only for MIT DM motor
+    DATA_STATE,      ///< Motor State.only for MIT DM motor
+    DATA_COUNT_,
     };
+
+    enum EMotorControlMode {
+    MODE_UNDEF = -1,
+    MODE_POSITION_SPEED = 0,  ///< Position Control Mode
+    MODE_SPEED,           ///< Speed Control Mode
+    MODE_MIT,             ///< MIT Control Mode
+    MODE_CURRENT,         ///< Current Control Mode
+  } motorMode = EMotorControlMode::MODE_UNDEF;
+
 
     // 存放电机物理数据的数组
     std::array<int32_t, DATA_COUNT_> motorData = {0};

@@ -17,6 +17,7 @@
 #include "mtr_dji.hpp"
 #include "mtr_m2006.hpp"
 #include "mtr_m3508.hpp"
+#include "mtr_m6020.hpp"
 #include "mtr_kt.hpp"
 
 namespace my_engineer {

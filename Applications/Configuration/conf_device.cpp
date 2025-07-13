@@ -71,49 +71,70 @@ EAppStatus InitAllDevice(){
     controllerLink.InitDevice(&controllerLink_initparam);
 
     // 自定义控制器电机
-    // Traverse
-    static CDevMtrM2006 controllerMotor_Traverse;
-    CDevMtrM2006::SMtrInitParam_M2006 controllerMotor_Traverse_initparam;
-    controllerMotor_Traverse_initparam.deviceID = EDeviceID::DEV_CONTROLLER_MTR_TRAVERSE;
-    controllerMotor_Traverse_initparam.interfaceID = EInterfaceID::INF_CAN2;
-    controllerMotor_Traverse_initparam.djiMtrID = CDevMtrDJI::EDjiMtrID::ID_2;
-    controllerMotor_Traverse_initparam.useAngleToPosit = true;
-    controllerMotor_Traverse_initparam.useStallMonit = true;
-    controllerMotor_Traverse_initparam.stallMonitDataSrc = CDevMtr::DATA_TORQUE;
-    controllerMotor_Traverse.InitDevice(&controllerMotor_Traverse_initparam);
-
-    // Stretch
-    static CDevMtrM2006 controllerMotor_Stretch;
-    CDevMtrM2006::SMtrInitParam_M2006 controllerMotor_Stretch_initparam;
-    controllerMotor_Stretch_initparam.deviceID = EDeviceID::DEV_CONTROLLER_MTR_STRETCH;
-    controllerMotor_Stretch_initparam.interfaceID = EInterfaceID::INF_CAN2;
-    controllerMotor_Stretch_initparam.djiMtrID = CDevMtrDJI::EDjiMtrID::ID_1;
-    controllerMotor_Stretch_initparam.useAngleToPosit = true;
-    controllerMotor_Stretch_initparam.useStallMonit = true;
-    controllerMotor_Stretch_initparam.stallMonitDataSrc = CDevMtr::DATA_TORQUE;
-    controllerMotor_Stretch.InitDevice(&controllerMotor_Stretch_initparam);
-
-    // Yaw
-    static CDevMtrM2006 controllerMotor_Yaw;
-    CDevMtrM2006::SMtrInitParam_M2006 controllerMotor_Yaw_initparam;
+    // yaw
+    static CDevMtrM6020 controllerMotor_Yaw;
+    CDevMtrM6020::SMtrInitParam_M6020 controllerMotor_Yaw_initparam;
     controllerMotor_Yaw_initparam.deviceID = EDeviceID::DEV_CONTROLLER_MTR_YAW;
-    controllerMotor_Yaw_initparam.interfaceID = EInterfaceID::INF_CAN2;
-    controllerMotor_Yaw_initparam.djiMtrID = CDevMtrDJI::EDjiMtrID::ID_3;
+    controllerMotor_Yaw_initparam.interfaceID = EInterfaceID::INF_CAN1;
+    controllerMotor_Yaw_initparam.djiMtrID = CDevMtrDJI::EDjiMtrID::ID_5;
     controllerMotor_Yaw_initparam.useAngleToPosit = true;
     controllerMotor_Yaw_initparam.useStallMonit = true;
     controllerMotor_Yaw_initparam.stallMonitDataSrc = CDevMtr::DATA_TORQUE;
     controllerMotor_Yaw.InitDevice(&controllerMotor_Yaw_initparam);
 
+    // Pitch1
+    static CDevMtrDM controllerMotor_Pitch1;
+    CDevMtrDM::SMtrInitParam_DM controllerMotor_Pitch1_initparam;
+    controllerMotor_Pitch1_initparam.deviceID = EDeviceID::DEV_CONTROLLER_MTR_PITCH1;
+    controllerMotor_Pitch1_initparam.interfaceID = EInterfaceID::INF_CAN2;
+    controllerMotor_Pitch1_initparam.dmMtrID = CDevMtrDM::EDmMtrID::ID_MIT;
+    controllerMotor_Pitch1_initparam.dmMtrMode = CDevMtrDM::EMotorControlMode::MODE_MIT;
+    controllerMotor_Pitch1_initparam.useAngleToPosit = false;
+    /*--------pleasue confige thie param,only when you use MIT mode--------*/
+    controllerMotor_Pitch1_initparam.Kp = 0.0f;                                         ///<Proportional gain for MIT mode
+    controllerMotor_Pitch1_initparam.Kd = 0.0f;                                         ///<Derivative gain for
+    controllerMotor_Pitch1_initparam.MIT_RxCANID = 0x31;                              
+    controllerMotor_Pitch1_initparam.MIT_TxCANID = 0x30;
+    /*--------------------------------------------------------------------*/
+    controllerMotor_Pitch1.InitDevice(&controllerMotor_Pitch1_initparam);
+
+    // Pitch2
+    static CDevMtrDM controllerMotor_Pitch2;
+    CDevMtrDM::SMtrInitParam_DM controllerMotor_Pitch2_initparam;
+    controllerMotor_Pitch2_initparam.deviceID = EDeviceID::DEV_CONTROLLER_MTR_PITCH2;
+    controllerMotor_Pitch2_initparam.interfaceID = EInterfaceID::INF_CAN2;
+    controllerMotor_Pitch2_initparam.dmMtrID = CDevMtrDM::EDmMtrID::ID_MIT;
+    controllerMotor_Pitch2_initparam.dmMtrMode = CDevMtrDM::EMotorControlMode::MODE_MIT;
+    controllerMotor_Pitch2_initparam.useAngleToPosit = false;
+    /*--------pleasue confige thie param,only when you use MIT mode--------*/
+    controllerMotor_Pitch2_initparam.Kp = 0.0f;                                         ///<Proportional gain for MIT mode
+    controllerMotor_Pitch2_initparam.Kd = 0.0f;                                         ///<Derivative gain for
+    controllerMotor_Pitch2_initparam.MIT_RxCANID = 0x33;                              
+    controllerMotor_Pitch2_initparam.MIT_TxCANID = 0x32;
+    /*--------------------------------------------------------------------*/    
+    controllerMotor_Pitch2.InitDevice(&controllerMotor_Pitch2_initparam);
+
     // Roll
-    static CDevMtrM2006 controllerMotor_Roll;
-    CDevMtrM2006::SMtrInitParam_M2006 controllerMotor_Roll_initparam;
+    static CDevMtrM3508 controllerMotor_Roll;
+    CDevMtrM3508::SMtrInitParam_M3508 controllerMotor_Roll_initparam;
     controllerMotor_Roll_initparam.deviceID = EDeviceID::DEV_CONTROLLER_MTR_ROLL;
-    controllerMotor_Roll_initparam.interfaceID = EInterfaceID::INF_CAN2;
-    controllerMotor_Roll_initparam.djiMtrID = CDevMtrDJI::EDjiMtrID::ID_4;
+    controllerMotor_Roll_initparam.interfaceID = EInterfaceID::INF_CAN1;
+    controllerMotor_Roll_initparam.djiMtrID = CDevMtrDJI::EDjiMtrID::ID_1;
     controllerMotor_Roll_initparam.useAngleToPosit = true;
     controllerMotor_Roll_initparam.useStallMonit = true;
     controllerMotor_Roll_initparam.stallMonitDataSrc = CDevMtr::DATA_TORQUE;
     controllerMotor_Roll.InitDevice(&controllerMotor_Roll_initparam);
+
+    // pitch end
+    static CDevMtrM3508 controllerMotor_PitchEnd;
+    CDevMtrM3508::SMtrInitParam_M3508 controllerMotor_PitchEnd_initparam;
+    controllerMotor_PitchEnd_initparam.deviceID = EDeviceID::DEV_CONTROLLER_MTR_PITCH_END;
+    controllerMotor_PitchEnd_initparam.interfaceID = EInterfaceID::INF_CAN1;
+    controllerMotor_PitchEnd_initparam.djiMtrID = CDevMtrDJI::EDjiMtrID::ID_2;
+    controllerMotor_PitchEnd_initparam.useAngleToPosit = true;
+    controllerMotor_PitchEnd_initparam.useStallMonit = true;
+    controllerMotor_PitchEnd_initparam.stallMonitDataSrc = CDevMtr::DATA_TORQUE;
+    controllerMotor_PitchEnd.InitDevice(&controllerMotor_PitchEnd_initparam);
 
 
     return APP_OK;

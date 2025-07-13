@@ -83,6 +83,17 @@ EAppStatus CDevControllerLink::SendPackage(EPackageID packageID, SPkgHeader &pac
 
 			return uartInterface_->Transmit(reinterpret_cast<uint8_t *>(pkg), sizeof(SRobotDataPkg));
 		}
+		case ID_CHOSELEVEL_DATA: {
+			auto pkg = reinterpret_cast<SChoseLevelDataPkg *>(&packageHeader);
+			pkg->header.SOF = 0xA5;
+			pkg->header.seq++;
+			pkg->header.pkgLen = sizeof(SChoseLevelDataPkg) - sizeof(SPkgHeader) - 2; // 2 bytes for CRC16
+			pkg->header.CRC8 = CCrcValidator::Crc8Calculate(reinterpret_cast<uint8_t *>(&(pkg->header)), 4);
+			pkg->header.cmd_Id = 0x0306; 
+			pkg->CRC16 = CCrcValidator::Crc16Calculate(reinterpret_cast<uint8_t *>(pkg), sizeof(SChoseLevelDataPkg) - 2);
+
+			return uartInterface_->Transmit(reinterpret_cast<uint8_t *>(pkg), sizeof(SChoseLevelDataPkg));
+		}
 
 		default:
 			return APP_ERROR;
