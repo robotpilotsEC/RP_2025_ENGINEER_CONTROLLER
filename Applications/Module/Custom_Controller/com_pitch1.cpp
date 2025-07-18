@@ -56,25 +56,24 @@ EAppStatus CModController::CComPitch1::UpdateComponent() {
 	switch (Component_FSMFlag_){
 		case FSM_RESET: {
 			std::fill(std::begin(pitch1Cmd.setParam), std::end(pitch1Cmd.setParam), 0.0f);
-			componentStatus = APP_OK;
 			return APP_OK;
 		}
 
 		case FSM_PREINIT: {
-			float_t params[] = {0.0f, 0.0f, motor[0]->Kp, motor[0]->Kd, 0.0f};
+			float_t params[] = {20.0, 0.0f, motor[0]->Kp, motor[0]->Kd, 0.0f};
 			std::copy(std::begin(params), std::end(params), pitch1Cmd.setParam);
 			Component_FSMFlag_ = FSM_INIT;
 			return APP_OK;
 		}
 
 		case FSM_INIT: {
-			if (fabs(pitch1Info.posit) < 5.0f) {
-				pitch1Cmd.setParam[static_cast<int>(EMotorParam::POSIT)] = 0.0f;
+			if (pitch1Info.isPositArrived) {
+				pitch1Cmd.setParam[static_cast<int>(EMotorParam::POSIT)] = 20.0f;
 				Component_FSMFlag_ = FSM_CTRL;
 				componentStatus = APP_OK;
 				return APP_OK;
 			}
-			float_t params[] = {0.0f, 0.0f, motor[0]->Kp, motor[0]->Kd, 0.0f};
+			float_t params[] = {20.0, 0.0f, motor[0]->Kp, motor[0]->Kd, 0.0f};
 			std::copy(std::begin(params), std::end(params), pitch1Cmd.setParam);
 			return _UpdateOutput(pitch1Cmd.setParam);
 		}
@@ -103,7 +102,7 @@ EAppStatus CModController::CComPitch1::UpdateComponent() {
  * @return   float_t 
  ******************************************************************************/
 float_t CModController::CComPitch1::OffsetPositToMotortruePosit_test(float_t offsetPosit) {
-	const float_t zeroOffset = 0.0f; 
+	const float_t zeroOffset = 5.0f; 
 	const float_t scale = 180.0f / PI; 
 	return (static_cast<float_t>(offsetPosit - zeroOffset) / scale);
 }
@@ -115,7 +114,7 @@ float_t CModController::CComPitch1::OffsetPositToMotortruePosit_test(float_t off
  * @return   float_t 
  ******************************************************************************/
 float_t CModController::CComPitch1::MotortruePositToOffsetPosit_test(float_t motortruePosit) {
-	const float_t zeroOffset = 0.0f;
+	const float_t zeroOffset = 5.0f;
 	const float_t scale = 180.0f / PI;
 	
 	return (static_cast<float_t>(motortruePosit * scale) + zeroOffset);
@@ -134,7 +133,7 @@ EAppStatus CModController::CComPitch1::_UpdateOutput(float_t* Setparam){
                               Setparam[static_cast<int>(EMotorParam::KD)]);   
                               
   /*!!!!!!!!!!!Here Can had been sent!!!!!!!!!!!!!!!!!!!*/
- MitTxNode_Can1_30.Transmit();
+ MitTxNode_Can2_30.Transmit();
   return APP_OK;
 }
 

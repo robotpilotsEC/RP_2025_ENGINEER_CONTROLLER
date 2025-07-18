@@ -102,10 +102,8 @@ void StartUpdateTask(void *argument) {
         }
 
         // 执行can发送
-        // TxNode_Can1_200.Transmit();
-        // TxNode_Can2_200.Transmit();
-        // TxNode_Can2_1FF.Transmit();
-
+        TxNode_Can1_200.Transmit();
+        TxNode_Can1_1FF.Transmit();
         proc_waitMs(1); // 1000Hz
 
     }

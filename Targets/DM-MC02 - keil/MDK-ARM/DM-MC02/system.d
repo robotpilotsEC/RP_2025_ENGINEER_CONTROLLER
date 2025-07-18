@@ -109,6 +109,8 @@ dm-mc02/system.o: ..\..\..\Applications\System\System.cpp \
   ..\..\..\Applications\Device\Include\dev_controller_link.hpp \
   ..\..\..\Applications\Interface\Include\inf_uart.hpp \
   ..\..\..\Applications\Algorithm\Include\algo_crc.hpp \
+  ..\..\..\Applications\Device\Include\multi_button\dev_FourButton.hpp \
+  ..\..\..\Applications\Device\Include\multi_button\dev_multi_button.hpp \
   ..\..\..\Applications\Module\Include\Module.hpp \
   ..\..\..\Applications\Module\Include\mod_common.hpp \
   ..\..\..\Applications\Interface\Include\Interface.hpp \

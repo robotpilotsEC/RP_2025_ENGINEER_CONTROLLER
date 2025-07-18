@@ -116,6 +116,8 @@ dm-mc02/sys_task.o: ..\..\..\Applications\System\Tasks\sys_task.cpp \
   ..\..\..\Applications\Device\Include\buzzer\music_lib.hpp \
   ..\..\..\Applications\Device\Include\dev_controller_link.hpp \
   ..\..\..\Applications\Algorithm\Include\algo_crc.hpp \
+  ..\..\..\Applications\Device\Include\multi_button\dev_FourButton.hpp \
+  ..\..\..\Applications\Device\Include\multi_button\dev_multi_button.hpp \
   ..\..\..\Applications\Module\Include\Module.hpp \
   ..\..\..\Applications\Module\Include\mod_common.hpp \
   ..\..\..\Applications\Configuration\Include\conf_CanTxNode.hpp \

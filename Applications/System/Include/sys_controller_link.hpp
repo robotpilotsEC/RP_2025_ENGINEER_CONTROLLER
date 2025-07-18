@@ -61,10 +61,10 @@ public:
 	// 初始化系统
 	EAppStatus InitSystem(SSystemInitParam_Base *pStruct) final;
 
-private:
-
 	// 控制器通信设备指针
 	CDevControllerLink *pcontrollerLink_ = nullptr;
+
+private:
 
 	void UpdateHandler_() final;
 
@@ -81,6 +81,8 @@ private:
 
 	// 更新发送数据包 ControllerData
 	void UpdateControllerDataPkg_();
+	// 更新按键状态
+	void UpdateButtonStatus_();
 
 };
 

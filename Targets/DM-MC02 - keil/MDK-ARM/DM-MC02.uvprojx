@@ -584,6 +584,16 @@
               <FileType>8</FileType>
               <FilePath>..\..\..\Applications\Device\dev_controller_link.cpp</FilePath>
             </File>
+            <File>
+              <FileName>dev_FourButton.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\..\Applications\Device\MULTI_BUTTON\dev_FourButton.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>dev_multi_button.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\..\..\Applications\Device\MULTI_BUTTON\dev_multi_button.cpp</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

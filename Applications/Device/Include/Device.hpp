@@ -1,3 +1,11 @@
+/*
+ * @Description: 
+ * @Author: Sassinak
+ * @version: 
+ * @Date: 2025-07-12 09:52:10
+ * @LastEditors: Sassinak
+ * @LastEditTime: 2025-07-17 22:25:22
+ */
 /**
  * @file Device.hpp
  * @author Zoe
@@ -18,6 +26,7 @@
 #include "dev_rocker.hpp"
 #include "buzzer/dev_buzzer.hpp"
 #include "dev_controller_link.hpp"
+#include "multi_button/dev_FourButton.hpp"
 
 // #include "dev_vision.hpp"
 // #include "dev_referee.hpp"

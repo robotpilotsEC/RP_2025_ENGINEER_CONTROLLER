@@ -105,4 +105,6 @@ dm-mc02/device.o: ..\..\..\Applications\Device\Device.cpp \
   ..\..\..\Applications\Device\Include\buzzer\music_lib.hpp \
   ..\..\..\Applications\Device\Include\dev_controller_link.hpp \
   ..\..\..\Applications\Interface\Include\inf_uart.hpp \
-  ..\..\..\Applications\Algorithm\Include\algo_crc.hpp
+  ..\..\..\Applications\Algorithm\Include\algo_crc.hpp \
+  ..\..\..\Applications\Device\Include\multi_button\dev_FourButton.hpp \
+  ..\..\..\Applications\Device\Include\multi_button\dev_multi_button.hpp

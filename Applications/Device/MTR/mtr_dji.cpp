@@ -193,7 +193,7 @@ void CDevMtrDJI::HeartbeatHandler_(){
 
     const auto tickRate          = 10;     // Unit: Hz
     const auto offlineDelay      = 500;    // Unit: ms
-    const auto stallSpdThreshold = 50;     // Unit: rpm
+    const auto stallSpdThreshold = 70;     // Unit: rpm
 
     // 检查设备状态
     if (motorStatus == EMotorStatus::RESET) return;
@@ -211,8 +211,8 @@ void CDevMtrDJI::HeartbeatHandler_(){
 
         // 如果使用了堵转监测
         if (useStallMonit_) {
-            if (abs(motorData[stallMonitDataSrc_]) > static_cast<int32_t>(stallThreshold_) 
-                    && (motorStatus == EMotorStatus::STOP)) {
+            if (abs(motorData[stallMonitDataSrc_]) > static_cast<int32_t>(stallThreshold_)
+                   && (motorStatus == EMotorStatus::STOP)) {
                 stallCount_++;
                 if (stallCount_ > stallTime_ / tickRate) {
                     motorStatus = EMotorStatus::STALL;

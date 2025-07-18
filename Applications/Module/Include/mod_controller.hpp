@@ -16,10 +16,11 @@
 #include "mod_common.hpp"
 
 // 直接把机器人的物理位置给自定义控制器，懒得转换了
-#define CONTROLLER_YAW_PHYSICAL_RANGE 140.1f
-#define CONTROLLER_YAW_MOTOR_RANGE 0
-#define CONTROLLER_YAW_PHYSICAL_RANGE_MIN -90.0f
-#define CONTROLLER_YAW_PHYSICAL_RANGE_MAX 90.0f
+#define CONTROLLER_YAW_PHYSICAL_RANGE 195.0f
+#define CONTROLLER_YAW_MOTOR_RANGE 4437.33
+#define CONTROLLER_YAW_PHYSICAL_RANGE_MIN -97.5f
+#define CONTROLLER_YAW_PHYSICAL_RANGE_MAX 97.5f
+#define CONTROLLER_YAW_MOTOR_MACH 4800
 /*------------------------------------------------------------------------------------------*/
 #define CONTROLLER_PITCH1_PHYSICAL_RANGE 328.6f
 #define CONTROLLER_PITCH1_MOTOR_RANGE 392000
@@ -32,29 +33,31 @@
 #define CONTROLLER_ROLL_MOTOR_RANGE 0 
 #define CONTROLLER_ROLL_PHYSICAL_RANGE 0.0f 
 #define CONTROLLER_ROLL_MOTOR_OFFSET 0
-/*------------------------------------------------------------------------------------------*/
-#define CONTROLLER_ROLL_END_MOTOR_RANGE 0
+#define CONTROLLER_ROLL_MOTOR_RATIO (CONTROLLER_ROLL_MOTOR_RANGE / CONTROLLER_ROLL_PHYSICAL_RANGE)
+/*----------------------------------Roll--------------------------------------------------------*/
+#define CONTROLLER_ROLL_END_MOTOR_RANGE 0.0f
 #define CONTROLLER_ROLL_END_PHYSICAL_RANGE 0.0f
-#define CONTROLLER_ROLL_END_MOTOR_OFFSET 0
+#define CONTROLLER_ROLL_END_MOTOR_OFFSET 5557
+/*----------------------------------Pitch_End-----------------------------------------------*/
+#define CONTROLLER_PITCH_END_PHYSICAL_RANGE_MAX 145.0f
+#define CONTROLLER_PITCH_END_PHYSICAL_RANGE_MIN -60.0f
+#define CONTROLLER_PITCH_END_MOTOR_RANGE 4201
+#define CONTROLLER_PITCH_END_MOTOR_RATIO (CONTROLLER_PITCH_END_MOTOR_RANGE / (CONTROLLER_PITCH_END_PHYSICAL_RANGE_MAX - CONTROLLER_PITCH_END_PHYSICAL_RANGE_MIN))
+#define CONTROLLER_PITCH_END_MOTOR_OFFSET 3345
 /*------------------------------------------------------------------------------------------*/
-#define CONTROLLER_PITCH_END_PHYSICAL_RANGE 0.0f
-#define CONTROLLER_PITCH_END_MOTOR_RANGE 0
-#define CONTROLLER_PITCH_END_MOTOR_OFFSET 0
-
 #define CONTROLLER_PITCH1_MOTOR_RATIO (CONTROLLER_PITCH1_MOTOR_RANGE / CONTROLLER_PITCH1_PHYSICAL_RANGE)
 #define CONTROLLER_PITCH2_MOTOR_RATIO (CONTROLLER_PITCH2_MOTOR_RANGE / CONTROLLER_PITCH2_PHYSICAL_RANGE)
 #define CONTROLLER_YAW_MOTOR_RATIO (CONTROLLER_YAW_MOTOR_RANGE / (CONTROLLER_YAW_PHYSICAL_RANGE_MAX - CONTROLLER_YAW_PHYSICAL_RANGE_MIN))
 #define CONTROLLER_YAW_MOTOR_OFFSET -CONTROLLER_YAW_MOTOR_RATIO * CONTROLLER_YAW_PHYSICAL_RANGE_MIN
-#define CONTROLLER_ROLL_MOTOR_RATIO (CONTROLLER_ROLL_MOTOR_RANGE / CONTROLLER_ROLL_PHYSICAL_RANGE)
 #define CONTROLLER_ROLL_END_MOTOR_RATIO (CONTROLLER_ROLL_END_MOTOR_RANGE / CONTROLLER_ROLL_END_PHYSICAL_RANGE)
-#define CONTROLLER_PITCH_END_MOTOR_RATIO (CONTROLLER_PITCH_END_MOTOR_RANGE / CONTROLLER_PITCH_END_PHYSICAL_RANGE)
+
 
 // 当物理位置从0增大时，电机位置的变化方向
 #define CONTROLLER_YAW_MOTOR_DIR 1
 #define CONTROLLER_PITCH1_MOTOR_DIR -1
 #define CONTROLLER_PITCH2_MOTOR_DIR 1
 #define CONTROLLER_ROLL_MOTOR_DIR -1
-#define CONTROLLER_ROLL_END_MOTOR_DIR -1
+#define CONTROLLER_ROLL_END_MOTOR_DIR 1
 #define CONTROLLER_PITCH_END_MOTOR_DIR -1
 
 // 与自定义控制器模块相关的宏定义
@@ -80,7 +83,8 @@ public:
 
 	// 定义控制器模块初始化参数结构体
 	struct SModInitParam_Controller: public SModInitParam_Base{
-		EDeviceID rocker_id 	= EDeviceID::DEV_NULL; ///< 摇杆设备ID
+		EDeviceID rocker_id 		= EDeviceID::DEV_NULL; ///< 摇杆设备ID
+		EDeviceID button_id 		= EDeviceID::DEV_NULL; ///< 按键设备ID
 		EDeviceID buzzer_id 		= EDeviceID::DEV_NULL; ///< 蜂鸣器设备ID
 		EDeviceID yaw_id 				= EDeviceID::DEV_NULL; ///< yaw电机设备ID
 		EDeviceID pitch1_id 		= EDeviceID::DEV_NULL; ///< 大pitch电机设备ID
@@ -98,10 +102,6 @@ public:
 		/*--------------------------Set Pid----------------------------------------------*/
 		CAlgoPid::SAlgoInitParam_Pid yawPosPidParam;
 		CAlgoPid::SAlgoInitParam_Pid yawSpdPidParam;
-		CAlgoPid::SAlgoInitParam_Pid pitch1PosPidParam;
-		CAlgoPid::SAlgoInitParam_Pid pitch1SpdPidParam;
-		CAlgoPid::SAlgoInitParam_Pid pitch2PosPidParam;
-		CAlgoPid::SAlgoInitParam_Pid pitch2SpdPidParam;
 		CAlgoPid::SAlgoInitParam_Pid rollPosPidParam;
 		CAlgoPid::SAlgoInitParam_Pid rollSpdPidParam;
 		CAlgoPid::SAlgoInitParam_Pid rollEndPosPidParam;
@@ -125,6 +125,10 @@ public:
 	struct SControllerInfo{
 		EVarStatus isModuleAvailable = false; ///< 模块是否可用
 		EVarStatus isReturnSuccess = false; ///< 归位是否成功
+		bool isRest = false; ///< 是否归位
+		bool isLevel4 = false; ///< 是否处于四级状态
+		bool isLevel3 = false; ///< 是否处于三级状态
+		bool isSelf = false; ///< 
 		// int8_t rocker_X = 0; ///< 摇杆X轴值 -100 - 100
 		// int8_t rocker_Y = 0; ///< 摇杆Y轴值 -100 - 100
 		// KEY_STATUS rocker_Key = KEY_STATUS::RELEASE; ///< 摇杆按键状态

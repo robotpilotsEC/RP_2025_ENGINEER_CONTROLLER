@@ -54,7 +54,7 @@ EAppStatus CModController::CComYaw::UpdateComponent() {
 	if (componentStatus == APP_RESET) return APP_ERROR;
 
 	// 更新组件信息
-	yawInfo.posit = motor[0]->motorData[CDevMtr::DATA_POSIT] * CONTROLLER_YAW_MOTOR_DIR;
+	yawInfo.posit = motor[0]->motorData[CDevMtr::DATA_POSIT];
 	yawInfo.isPositArrived = (abs(yawCmd.setPosit - yawInfo.posit) < 8192 * 0.02);
 
 	switch (Component_FSMFlag_) {
@@ -68,8 +68,9 @@ EAppStatus CModController::CComYaw::UpdateComponent() {
 		}
 
 		case FSM_PREINIT: {
-			yawCmd.setPosit = static_cast<int32_t>(rangeLimit * 1.2);
-			motor[0]->motorData[CDevMtr::DATA_POSIT] = yawCmd.setPosit * CONTROLLER_YAW_MOTOR_DIR;
+			motor[0]->motorData[CDevMtr::DATA_POSIT] = motor[0]->motorData[CDevMtr::DATA_ANGLE] - CONTROLLER_YAW_MOTOR_MACH;
+			while (motor[0]->motorData[CDevMtr::DATA_POSIT] > 4096)
+				motor[0]->motorData[CDevMtr::DATA_POSIT] -= 8192;
 			mtrOutputBuffer.fill(0);
 			pidPosCtrl.ResetPidController();
 			pidSpdCtrl.ResetPidController();
@@ -78,17 +79,15 @@ EAppStatus CModController::CComYaw::UpdateComponent() {
 		}
 
 		case FSM_INIT: {
-			if (motor[0]->motorStatus == CDevMtr::EMotorStatus::STALL) {
-				yawCmd = SYawCmd();
-				motor[0]->motorData[CDevMtr::DATA_POSIT] = -static_cast<int32_t>(0.001 * 8192) * CONTROLLER_YAW_MOTOR_DIR;
+			if(abs(yawInfo.posit) < 100){
+				yawCmd.setPosit = 0;
 				pidPosCtrl.ResetPidController();
 				pidSpdCtrl.ResetPidController();
 				Component_FSMFlag_ = FSM_CTRL;
 				componentStatus = APP_OK;
 				return APP_OK;
 			}
-			yawCmd.setPosit -= 100;
-			return _UpdateOutput(static_cast<float_t>(yawCmd.setPosit));
+			return _UpdateOutput(0.0f);
 		}
 
 		case FSM_CTRL: {
@@ -118,8 +117,8 @@ EAppStatus CModController::CComYaw::UpdateComponent() {
  * @return   int32_t 
  ******************************************************************************/
 int32_t CModController::CComYaw::PhyPositToMtrPosit(float_t phyPosit) {
-	const int32_t zeroOffset = CONTROLLER_YAW_MOTOR_OFFSET;
-	const float_t scale = CONTROLLER_YAW_MOTOR_RATIO;
+	const int32_t zeroOffset = 0;
+	const float_t scale = 22.76;
 
 	return static_cast<int32_t>(phyPosit * scale + zeroOffset);
 }
@@ -131,8 +130,8 @@ int32_t CModController::CComYaw::PhyPositToMtrPosit(float_t phyPosit) {
  * @return   float_t 
  ******************************************************************************/
 float_t CModController::CComYaw::MtrPositToPhyPosit(int32_t mtrPosit) {
-	const int32_t zeroOffset = CONTROLLER_YAW_MOTOR_OFFSET;
-	const float_t scale = CONTROLLER_YAW_MOTOR_RATIO;
+	const int32_t zeroOffset = 0;
+	const float_t scale = 22.76;
 
 	return static_cast<float_t>(mtrPosit - zeroOffset) / scale;
 }
@@ -143,7 +142,7 @@ float_t CModController::CComYaw::MtrPositToPhyPosit(int32_t mtrPosit) {
 EAppStatus CModController::CComYaw::_UpdateOutput(float_t posit) {
 	// 位置环
 	DataBuffer<float_t> yawPos = {
-		static_cast<float_t>(posit) * CONTROLLER_YAW_MOTOR_DIR,
+		static_cast<float_t>(posit),
 	};
 
 	DataBuffer<float_t> yawPosMeasure = {

@@ -152,4 +152,26 @@ void CSystemControllerLink::HeartbeatHandler_() {
 	systemStatus = APP_OK;
 }
 
+void CSystemControllerLink::UpdateButtonStatus_() {
+	if (systemStatus != APP_OK) return;
+
+	// currentInstance_
+}
+
+// void CDevFourButton::HandleButtonPressDown(uint8_t buttonId){
+//   if (buttonId < static_cast<uint8_t>(EButtonID::BUTTON_MAX)) {
+// 		switch (buttonId)
+// 		{
+// 		case constant expression:
+// 			/* code */
+// 			break;
+		
+// 		default:
+// 			break;
+// 		}
+//   }
+
+// 	// SysControllerLink.pcontrollerLink_->choseLevelData_info_pkg.Key_value1 = ;
+// }
+
 } // namespace my_engineer

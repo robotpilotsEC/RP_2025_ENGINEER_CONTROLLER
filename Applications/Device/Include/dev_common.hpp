@@ -76,6 +76,7 @@ public:
         DEV_ROCKER,     ///< 摇杆
         DEV_BUZZER,     ///< 蜂鸣器
         DEV_LED,        ///< LED灯
+        DEV_MULTI_BUTTON, ///< 多按键设备
         DEV_OTHER,      ///< 其他设备
     } deviceType = EDevType::DEV_UNDEF;    ///< 设备类型
 

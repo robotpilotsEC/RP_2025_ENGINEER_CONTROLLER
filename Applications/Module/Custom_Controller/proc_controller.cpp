@@ -52,14 +52,26 @@ void CModController::StartControllerModuleTask(void *argument) {
 				controller.comBuzzer_.StartComponent();
 				controller.comPitch1_.StartComponent();
 				controller.comPitch2_.StartComponent();
+				proc_waitUntil(controller.comPitch1_.componentStatus == APP_OK
+					&& controller.comPitch2_.componentStatus == APP_OK);
+				controller.comPitch1_.pitch1Cmd.setParam[EMotorParam::POSIT] = 30.0f;
+				controller.comPitch2_.pitch2Cmd.setParam[EMotorParam::POSIT] = 35.0f;
+				proc_waitUntil(controller.comPitch1_.pitch1Info.isPositArrived
+					&& controller.comPitch2_.pitch2Info.isPositArrived);
+
 				controller.comRoll_.StartComponent();
-				controller.comYaw_.StartComponent();
 				controller.comPitchEnd_.StartComponent();
 				proc_waitUntil(controller.comRoll_.componentStatus == APP_OK
-					&& controller.comPitch2_.componentStatus == APP_OK
-					&& controller.comYaw_.componentStatus == APP_OK
-					&& controller.comPitch1_.componentStatus == APP_OK
 					&& controller.comPitchEnd_.componentStatus == APP_OK);
+				
+				controller.comYaw_.StartComponent();
+				proc_waitUntil(controller.comYaw_.componentStatus == APP_OK);
+
+				controller.comYaw_.yawCmd.isFree = true; ///< 允许自由控制
+				controller.comPitch1_.pitch1Cmd.isFree = true; ///< 允许自由控制
+				controller.comPitch2_.pitch2Cmd.isFree = true; ///< 允许自由控制
+				controller.comRoll_.rollCmd.isFree = true; ///< 允许自由控制
+				controller.comPitchEnd_.pitchEndCmd.isFree = true; ///< 允许自由控制
 
 				controller.comBuzzer_.buzzerCmd.musicType = CDevBuzzer::MusicType::STARTUP;
 

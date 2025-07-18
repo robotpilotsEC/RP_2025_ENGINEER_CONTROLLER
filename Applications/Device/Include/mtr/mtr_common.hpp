@@ -46,7 +46,7 @@ public:
         MTR_DM4310,     ///< DM4310电机
         MTR_M2006,      ///< M2006电机
         MTR_M3508,      ///< M3508电机
-        MTR_M6020,     ///< RM6020电机
+        MTR_M6020,     ///< M6020电机
         MTR_KT4010,     ///< KT4010电机
     }motorType = EMotorType::MTR_UNDEF;
 

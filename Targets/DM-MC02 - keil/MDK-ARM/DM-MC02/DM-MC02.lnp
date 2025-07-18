@@ -34,6 +34,8 @@
 "dm-mc02\dev_buzzer.o"
 "dm-mc02\music_lib.o"
 "dm-mc02\dev_controller_link.o"
+"dm-mc02\dev_fourbutton.o"
+"dm-mc02\dev_multi_button.o"
 "dm-mc02\inf_can.o"
 "dm-mc02\inf_spi.o"
 "dm-mc02\inf_uart.o"

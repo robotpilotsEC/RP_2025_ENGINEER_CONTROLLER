@@ -54,7 +54,7 @@ EAppStatus CModController::CComPitchEnd::UpdateComponent() {
     if (componentStatus == APP_RESET) return APP_ERROR;
 
     // 更新组件信息
-    pitchEndInfo.posit = motor[0]->motorData[CDevMtr::DATA_POSIT] * CONTROLLER_PITCH_END_MOTOR_DIR;
+    pitchEndInfo.posit = motor[0]->motorData[CDevMtr::DATA_POSIT] * -1;
     pitchEndInfo.isPositArrived = (abs(pitchEndCmd.setPosit - pitchEndInfo.posit) < 8192 * 0.02);
 
     switch (Component_FSMFlag_) {
@@ -69,7 +69,7 @@ EAppStatus CModController::CComPitchEnd::UpdateComponent() {
 
         case FSM_PREINIT: {
             pitchEndCmd.setPosit = static_cast<int32_t>(rangeLimit * 1.2);
-            motor[0]->motorData[CDevMtr::DATA_POSIT] = pitchEndCmd.setPosit * CONTROLLER_PITCH_END_MOTOR_DIR;
+            motor[0]->motorData[CDevMtr::DATA_POSIT] = pitchEndCmd.setPosit;
             mtrOutputBuffer.fill(0);
             pidPosCtrl.ResetPidController();
             pidSpdCtrl.ResetPidController();
@@ -80,7 +80,7 @@ EAppStatus CModController::CComPitchEnd::UpdateComponent() {
         case FSM_INIT: {
             if (motor[0]->motorStatus == CDevMtr::EMotorStatus::STALL) {
                 pitchEndCmd = SPitchEndCmd();
-                motor[0]->motorData[CDevMtr::DATA_POSIT] = -static_cast<int32_t>(0.001 * 8192) * CONTROLLER_PITCH_END_MOTOR_DIR;
+                motor[0]->motorData[CDevMtr::DATA_POSIT] =  CONTROLLER_PITCH_END_MOTOR_OFFSET;
                 pidPosCtrl.ResetPidController();
                 pidSpdCtrl.ResetPidController();
                 Component_FSMFlag_ = FSM_CTRL;
@@ -118,8 +118,8 @@ EAppStatus CModController::CComPitchEnd::UpdateComponent() {
  * @return   int32_t 
  ******************************************************************************/
 int32_t CModController::CComPitchEnd::PhyPositToMtrPosit(float_t phyPosit) {
-    const int32_t zeroOffset = CONTROLLER_PITCH_END_MOTOR_OFFSET;
-    const float_t scale = CONTROLLER_PITCH_END_MOTOR_RATIO;
+    const int32_t zeroOffset = 0;
+    const float_t scale = 22.76f;
 
     return (static_cast<int32_t>(phyPosit * scale) + zeroOffset);
 }
@@ -131,8 +131,8 @@ int32_t CModController::CComPitchEnd::PhyPositToMtrPosit(float_t phyPosit) {
  * @return   float_t 
  ******************************************************************************/
 float_t CModController::CComPitchEnd::MtrPositToPhyPosit(int32_t mtrPosit) {
-    const int32_t zeroOffset = CONTROLLER_PITCH_END_MOTOR_OFFSET;
-    const float_t scale = CONTROLLER_PITCH_END_MOTOR_RATIO;
+    const int32_t zeroOffset = 0;
+    const float_t scale = 22.76f;
 
     return (static_cast<float_t>(mtrPosit - zeroOffset) / scale);
 }
@@ -143,7 +143,7 @@ float_t CModController::CComPitchEnd::MtrPositToPhyPosit(int32_t mtrPosit) {
 EAppStatus CModController::CComPitchEnd::_UpdateOutput(float_t posit) {
     // 位置环
     DataBuffer<float_t> pitchEndPos = {
-        static_cast<float_t>(posit) * CONTROLLER_PITCH_END_MOTOR_DIR,
+        static_cast<float_t>(posit * -1),
     };
 
     DataBuffer<float_t> pitchEndPosMeasure = {
@@ -169,3 +169,4 @@ EAppStatus CModController::CComPitchEnd::_UpdateOutput(float_t posit) {
 }
 
 } // namespace my_engineer
+

@@ -54,7 +54,7 @@ EAppStatus CModController::CComRoll::UpdateComponent() {
     if (componentStatus == APP_RESET) return APP_ERROR;
 
     // 更新组件信息
-    rollInfo.posit = motor[0]->motorData[CDevMtr::DATA_POSIT] * CONTROLLER_ROLL_MOTOR_DIR;
+    rollInfo.posit = motor[0]->motorData[CDevMtr::DATA_POSIT];
     rollInfo.isPositArrived = (abs(rollCmd.setPosit - rollInfo.posit) < 8192 * 0.02);
 
     switch (Component_FSMFlag_) {
@@ -63,13 +63,12 @@ EAppStatus CModController::CComRoll::UpdateComponent() {
             mtrOutputBuffer.fill(0);
             pidPosCtrl.ResetPidController();
             pidSpdCtrl.ResetPidController();
-            componentStatus = APP_OK;
             return APP_OK;
         }
 
         case FSM_PREINIT: {
             rollCmd.setPosit = static_cast<int32_t>(rangeLimit * 1.2);
-            motor[0]->motorData[CDevMtr::DATA_POSIT] = rollCmd.setPosit * CONTROLLER_ROLL_MOTOR_DIR;
+            motor[0]->motorData[CDevMtr::DATA_POSIT] = rollCmd.setPosit;
             mtrOutputBuffer.fill(0);
             pidPosCtrl.ResetPidController();
             pidSpdCtrl.ResetPidController();
@@ -80,14 +79,14 @@ EAppStatus CModController::CComRoll::UpdateComponent() {
         case FSM_INIT: {
             if (motor[0]->motorStatus == CDevMtr::EMotorStatus::STALL) {
                 rollCmd = SRollCmd();
-                motor[0]->motorData[CDevMtr::DATA_POSIT] = -static_cast<int32_t>(0.001 * 8192) * CONTROLLER_ROLL_MOTOR_DIR;
+                motor[0]->motorData[CDevMtr::DATA_POSIT] = CONTROLLER_ROLL_END_MOTOR_OFFSET;
                 pidPosCtrl.ResetPidController();
                 pidSpdCtrl.ResetPidController();
                 Component_FSMFlag_ = FSM_CTRL;
                 componentStatus = APP_OK;
                 return APP_OK;
             }
-            rollCmd.setPosit -= 100;
+            rollCmd.setPosit += 100;
             return _UpdateOutput(static_cast<float_t>(rollCmd.setPosit));
         }
 
@@ -118,8 +117,8 @@ EAppStatus CModController::CComRoll::UpdateComponent() {
  * @return   int32_t 
  ******************************************************************************/
 int32_t CModController::CComRoll::PhyPositToMtrPosit(float_t phyPosit) {
-    const int32_t zeroOffset = CONTROLLER_ROLL_MOTOR_OFFSET;
-    const float_t scale = CONTROLLER_ROLL_MOTOR_RATIO;
+    const int32_t zeroOffset = 0;
+    const float_t scale = 22.756f;
 
     return (static_cast<int32_t>(phyPosit * scale) + zeroOffset);
 }
@@ -131,8 +130,8 @@ int32_t CModController::CComRoll::PhyPositToMtrPosit(float_t phyPosit) {
  * @return   float_t 
  ******************************************************************************/
 float_t CModController::CComRoll::MtrPositToPhyPosit(int32_t mtrPosit) {
-    const int32_t zeroOffset = CONTROLLER_ROLL_MOTOR_OFFSET;
-    const float_t scale = CONTROLLER_ROLL_MOTOR_RATIO;
+    const int32_t zeroOffset = 0;
+    const float_t scale = 22.756f;
 
     return (static_cast<float_t>(mtrPosit - zeroOffset) / scale);
 }
@@ -143,7 +142,7 @@ float_t CModController::CComRoll::MtrPositToPhyPosit(int32_t mtrPosit) {
 EAppStatus CModController::CComRoll::_UpdateOutput(float_t posit) {
     // 位置环
     DataBuffer<float_t> rollPos = {
-        static_cast<float_t>(posit) * CONTROLLER_ROLL_MOTOR_DIR,
+        static_cast<float_t>(posit),
     };
 
     DataBuffer<float_t> rollPosMeasure = {

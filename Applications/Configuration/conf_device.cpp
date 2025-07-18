@@ -43,6 +43,28 @@ EAppStatus InitAllDevice(){
     bmi088_initparam.tempPidParam.maxOutput = 100;
     bmi088.InitDevice(&bmi088_initparam);
 
+    /*four button config*/
+    static CDevFourButton fourButton;
+    CDevFourButton::SDevInitParam_FourButton fourButton_initparam;
+    fourButton_initparam.deviceID = EDeviceID::DEV_MULTI_BUTTON;
+    fourButton_initparam.buttons_[0].buttonID = CDevFourButton::EButtonID::RESET_BUTTON;
+    fourButton_initparam.buttons_[0].activeLevel = 1;
+    // fourButton_initparam.buttons_[0].halGpioPort = BUTTON_1_GPIO_Port;
+    // fourButton_initparam.buttons_[0].halGpioPin = BUTTON_1_Pin;
+    fourButton_initparam.buttons_[1].buttonID = CDevFourButton::EButtonID::LEVEL_4_BUTTON;
+    fourButton_initparam.buttons_[1].activeLevel = 1;
+    // fourButton_initparam.buttons_[1].halGpioPort = BUTTON_2_GPIO_Port;
+    // fourButton_initparam.buttons_[1].halGpioPin = BUTTON_2_Pin;
+    fourButton_initparam.buttons_[2].buttonID = CDevFourButton::EButtonID::LEVEL_3_BUTTON;
+    fourButton_initparam.buttons_[2].activeLevel = 1;
+    // fourButton_initparam.buttons_[2].halGpioPort = BUTTON_3_GPIO_Port
+    // fourButton_initparam.buttons_[2].halGpioPin = BUTTON_3_Pin;
+    fourButton_initparam.buttons_[3].buttonID = CDevFourButton::EButtonID::SELF_BUTTON;
+    fourButton_initparam.buttons_[3].activeLevel = 1;
+    // fourButton_initparam.buttons_[3].halGpioPort = BUTTON_4_GPIO_Port
+    // fourButton_initparam.buttons_[3].halGpioPin = BUTTON_4_Pin;
+    fourButton.InitDevice(&fourButton_initparam);
+
     // 摇杆
     static CDevRocker rocker;
     CDevRocker::SDevInitParam_Rocker rocker_initparam;
@@ -79,7 +101,7 @@ EAppStatus InitAllDevice(){
     controllerMotor_Yaw_initparam.djiMtrID = CDevMtrDJI::EDjiMtrID::ID_5;
     controllerMotor_Yaw_initparam.useAngleToPosit = true;
     controllerMotor_Yaw_initparam.useStallMonit = true;
-    controllerMotor_Yaw_initparam.stallMonitDataSrc = CDevMtr::DATA_TORQUE;
+    controllerMotor_Yaw_initparam.stallMonitDataSrc = CDevMtr::DATA_CURRENT;
     controllerMotor_Yaw.InitDevice(&controllerMotor_Yaw_initparam);
 
     // Pitch1
@@ -91,8 +113,8 @@ EAppStatus InitAllDevice(){
     controllerMotor_Pitch1_initparam.dmMtrMode = CDevMtrDM::EMotorControlMode::MODE_MIT;
     controllerMotor_Pitch1_initparam.useAngleToPosit = false;
     /*--------pleasue confige thie param,only when you use MIT mode--------*/
-    controllerMotor_Pitch1_initparam.Kp = 0.0f;                                         ///<Proportional gain for MIT mode
-    controllerMotor_Pitch1_initparam.Kd = 0.0f;                                         ///<Derivative gain for
+    controllerMotor_Pitch1_initparam.Kp = 10.0f;                                         ///<Proportional gain for MIT mode
+    controllerMotor_Pitch1_initparam.Kd = 2.0f;                                         ///<Derivative gain for
     controllerMotor_Pitch1_initparam.MIT_RxCANID = 0x31;                              
     controllerMotor_Pitch1_initparam.MIT_TxCANID = 0x30;
     /*--------------------------------------------------------------------*/
@@ -107,8 +129,8 @@ EAppStatus InitAllDevice(){
     controllerMotor_Pitch2_initparam.dmMtrMode = CDevMtrDM::EMotorControlMode::MODE_MIT;
     controllerMotor_Pitch2_initparam.useAngleToPosit = false;
     /*--------pleasue confige thie param,only when you use MIT mode--------*/
-    controllerMotor_Pitch2_initparam.Kp = 0.0f;                                         ///<Proportional gain for MIT mode
-    controllerMotor_Pitch2_initparam.Kd = 0.0f;                                         ///<Derivative gain for
+    controllerMotor_Pitch2_initparam.Kp = 10.0f;                                         ///<Proportional gain for MIT mode
+    controllerMotor_Pitch2_initparam.Kd = 2.0f;                                         ///<Derivative gain for
     controllerMotor_Pitch2_initparam.MIT_RxCANID = 0x33;                              
     controllerMotor_Pitch2_initparam.MIT_TxCANID = 0x32;
     /*--------------------------------------------------------------------*/    
@@ -122,7 +144,8 @@ EAppStatus InitAllDevice(){
     controllerMotor_Roll_initparam.djiMtrID = CDevMtrDJI::EDjiMtrID::ID_1;
     controllerMotor_Roll_initparam.useAngleToPosit = true;
     controllerMotor_Roll_initparam.useStallMonit = true;
-    controllerMotor_Roll_initparam.stallMonitDataSrc = CDevMtr::DATA_TORQUE;
+    controllerMotor_Roll_initparam.stallMonitDataSrc = CDevMtr::DATA_CURRENT;
+    controllerMotor_Roll_initparam.stallThreshold = 2000;
     controllerMotor_Roll.InitDevice(&controllerMotor_Roll_initparam);
 
     // pitch end
@@ -133,7 +156,8 @@ EAppStatus InitAllDevice(){
     controllerMotor_PitchEnd_initparam.djiMtrID = CDevMtrDJI::EDjiMtrID::ID_2;
     controllerMotor_PitchEnd_initparam.useAngleToPosit = true;
     controllerMotor_PitchEnd_initparam.useStallMonit = true;
-    controllerMotor_PitchEnd_initparam.stallMonitDataSrc = CDevMtr::DATA_TORQUE;
+    controllerMotor_PitchEnd_initparam.stallMonitDataSrc = CDevMtr::DATA_CURRENT;
+    controllerMotor_PitchEnd_initparam.stallThreshold = 2000;
     controllerMotor_PitchEnd.InitDevice(&controllerMotor_PitchEnd_initparam);
 
 

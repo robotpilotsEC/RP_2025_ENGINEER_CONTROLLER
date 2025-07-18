@@ -59,6 +59,7 @@ enum class EDeviceID{
     DEV_LASER_L,            ///< 激光雷达左
     DEV_LASER_R,             ///< 激光雷达右
     DEV_MEMS_BMI088,        ///< 6轴MEMS（BMI-088）
+    DEV_MULTI_BUTTON,        ///< 多按键设备
     DEV_CONTROLLER_MTR_YAW,         ///< 控制器横移电机（M6020）
     DEV_CONTROLLER_MTR_PITCH1,      ///< 控制器前伸电机（DM4310）
     DEV_CONTROLLER_MTR_PITCH2,      ///< 控制器Yaw电机（DM4310）
@@ -80,6 +81,7 @@ enum class EModuleID{
     MOD_GANTRY,             ///< 龙门模块
     MOD_SUBGANTRY,          ///< 子龙门模块
     MOD_CONTROLLER,         ///< 自定义控制器模块
+    MOD_BUTTON,             ///< 按键模块
 };
 
 /**

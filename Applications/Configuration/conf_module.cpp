@@ -4,7 +4,7 @@
  * @version: 
  * @Date: 2025-05-14 01:05:00
  * @LastEditors: Sassinak
- * @LastEditTime: 2025-07-13 10:47:47
+ * @LastEditTime: 2025-07-15 20:19:03
  */
 
 #include "conf_module.hpp"
@@ -35,34 +35,34 @@ EAppStatus InitAllModule() {
     controllerInitParam.pitchEndTxNode = &TxNode_Can1_200;
     // 设置PID参数
     /*--------------------yaw---------------------------*/
-    controllerInitParam.yawPosPidParam.kp = 0.0f;
+    controllerInitParam.yawPosPidParam.kp = 3.0f;
     controllerInitParam.yawPosPidParam.ki = 0.0f;
     controllerInitParam.yawPosPidParam.kd = 0.0f;
     controllerInitParam.yawPosPidParam.maxIntegral = 20;
     controllerInitParam.yawPosPidParam.maxOutput = 5000;
-    controllerInitParam.yawSpdPidParam.kp = 0.0f;
-    controllerInitParam.yawSpdPidParam.ki = 0.0f;
+    controllerInitParam.yawSpdPidParam.kp = 1.0f;
+    controllerInitParam.yawSpdPidParam.ki = 0.1f;
     controllerInitParam.yawSpdPidParam.kd = 0.0f;
     controllerInitParam.yawSpdPidParam.maxIntegral = 200;
     controllerInitParam.yawSpdPidParam.maxOutput = 20000;
     /*--------------------roll----------------------------------*/
-    controllerInitParam.rollPosPidParam.kp = 0.0f;
+    controllerInitParam.rollPosPidParam.kp = 1.0f;
     controllerInitParam.rollPosPidParam.ki = 0.0f;
     controllerInitParam.rollPosPidParam.kd = 0.0f;
     controllerInitParam.rollPosPidParam.maxIntegral = 20;
     controllerInitParam.rollPosPidParam.maxOutput = 5000;
-    controllerInitParam.rollSpdPidParam.kp = 0.0f;
+    controllerInitParam.rollSpdPidParam.kp = 0.5f;
     controllerInitParam.rollSpdPidParam.ki = 0.0f;
     controllerInitParam.rollSpdPidParam.kd = 0.0f;
     controllerInitParam.rollSpdPidParam.maxIntegral = 200;
     controllerInitParam.rollSpdPidParam.maxOutput = 8000;
     /*--------------------pitch end--------------------------------*/
-    controllerInitParam.pitchEndPosPidParam.kp = 0.0f;
+    controllerInitParam.pitchEndPosPidParam.kp = 1.0f;
     controllerInitParam.pitchEndPosPidParam.ki = 0.0f;
     controllerInitParam.pitchEndPosPidParam.kd = 0.0f;
     controllerInitParam.pitchEndPosPidParam.maxIntegral = 20;
     controllerInitParam.pitchEndPosPidParam.maxOutput = 5000;
-    controllerInitParam.pitchEndSpdPidParam.kp = 0.0f;
+    controllerInitParam.pitchEndSpdPidParam.kp = 0.5f;
     controllerInitParam.pitchEndSpdPidParam.ki = 0.0f;
     controllerInitParam.pitchEndSpdPidParam.kd = 0.0f;
     controllerInitParam.pitchEndSpdPidParam.maxIntegral = 50;

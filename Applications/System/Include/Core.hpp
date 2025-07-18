@@ -59,6 +59,7 @@ private:
     // // CModSubGantry *psubgantry_ = nullptr;
     // CModMantis *pmantis_ = nullptr;
     CModController *pcontroller_ = nullptr;
+    CDevFourButton *pfourButton_ = nullptr;
 
     // 定义系统核心的更新处理
     void UpdateHandler_();
