@@ -42,6 +42,10 @@ void StartMonitorTask(void *argument) {
                 "angle_yaw: %.2f , angle_roll: %.2f\r\n"
                 "angle_pitch_end: %.2f\r\n"
                 "controlled_by_controller: %d\r\n",
+                "reset_button: %d\r\n"
+                "level4_button: %d\r\n"
+                "level3_button: %d\r\n"
+                "self_button: %d\r\n",
                 // controller->get_rocker_x(),
                 // controller->get_rocker_y(),
                 // SysControllerLink.controllerInfo.Rocker_X,
@@ -52,6 +56,10 @@ void StartMonitorTask(void *argument) {
                 SysControllerLink.controllerInfo.angle_yaw,
                 SysControllerLink.controllerInfo.angle_roll,
                 SysControllerLink.controllerInfo.angle_pitch_end,
+                SysControllerLink.controllerInfo.isReset,
+                SysControllerLink.controllerInfo.isLevel4,
+                SysControllerLink.controllerInfo.isLevel3,
+                SysControllerLink.controllerInfo.isSelf,
                 static_cast<int8_t>(SysControllerLink.robotInfo.controlled_by_controller)
             );
         proc_waitMs(500);

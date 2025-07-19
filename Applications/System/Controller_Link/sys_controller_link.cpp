@@ -37,6 +37,7 @@ EAppStatus CSystemControllerLink::InitSystem(SSystemInitParam_Base *pStruct) {
 	// 初始化控制器通信设备
 	systemID = param.systemID;
 	pcontrollerLink_ = static_cast<CDevControllerLink *>(DeviceIDMap.at(param.controllerLinkDevID));
+	pbuttons_ = static_cast<CDevFourButton *>(DeviceIDMap.at(EDeviceID::DEV_MULTI_BUTTON));
 
 	// 注册系统
 	RegisterSystem_();
@@ -52,6 +53,8 @@ EAppStatus CSystemControllerLink::InitSystem(SSystemInitParam_Base *pStruct) {
 void CSystemControllerLink::UpdateHandler_() {
 	// 检查系统状态
 	if (systemStatus != APP_OK) return;
+
+	UpdateButtonInfo_();
 
 	#if I_AM_CONTROLLER == 0
 		// 更新控制器信息
@@ -152,11 +155,16 @@ void CSystemControllerLink::HeartbeatHandler_() {
 	systemStatus = APP_OK;
 }
 
-void CSystemControllerLink::UpdateButtonStatus_() {
+void CSystemControllerLink::UpdateButtonInfo_() {
 	if (systemStatus != APP_OK) return;
+	controllerInfo.isReset = pbuttons_->isReset;
+	controllerInfo.isLevel4 = pbuttons_->isLevel4;
+	controllerInfo.isLevel3 = pbuttons_->isLevel3;
+	controllerInfo.isSelf = pbuttons_->isSelf;
 
-	// currentInstance_
 }
+
+
 
 // void CDevFourButton::HandleButtonPressDown(uint8_t buttonId){
 //   if (buttonId < static_cast<uint8_t>(EButtonID::BUTTON_MAX)) {

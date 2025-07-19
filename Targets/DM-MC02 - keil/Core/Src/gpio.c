@@ -72,17 +72,23 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
+  /*Configure GPIO pins : SELF_BUTTON_Pin LEVEL4_BUTTON_Pin */
+  GPIO_InitStruct.Pin = SELF_BUTTON_Pin|LEVEL4_BUTTON_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : LEVEL3_BUTTON_Pin RESET_BUTTON_Pin */
+  GPIO_InitStruct.Pin = LEVEL3_BUTTON_Pin|RESET_BUTTON_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+  HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
+
   /*Configure GPIO pins : BMI_ACCEL_INT_Pin BMI_GYRO_INT_Pin */
   GPIO_InitStruct.Pin = BMI_ACCEL_INT_Pin|BMI_GYRO_INT_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
-
-  /*Configure GPIO pin : rocker_KEY_Pin */
-  GPIO_InitStruct.Pin = rocker_KEY_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
-  HAL_GPIO_Init(rocker_KEY_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pin : KEY_INT_Pin */
   GPIO_InitStruct.Pin = KEY_INT_Pin;

@@ -16,6 +16,21 @@
 #include "sys_common.hpp"
 #include "Device.hpp"
 
+/*选不同难度时，x和y的位置*/
+#define POSIT_LEVEL3_X 0
+#define POSIT_LEVEL3_Y 0
+#define POSIT_LEVEL4_X 0
+#define POSIT_LEVEL4_Y 0
+
+/*确定键的位置*/
+#define POSIT_YES_X 0
+#define POSIT_YES_Y 0
+
+
+
+
+
+
 namespace my_engineer {
 
 /**
@@ -39,6 +54,10 @@ public:
 		int8_t Rocker_X = 0;
 		int8_t Rocker_Y = 0;
 		KEY_STATUS Rocker_Key = KEY_STATUS::RELEASE;
+		bool isReset = false; ///< 是否复位
+		bool isLevel4 = false; ///< 是否启用四级难度
+		bool isLevel3 = false; ///< 是否启用三级难度
+		bool isSelf = false; ///< 是否启用自定义按键
 		float_t angle_yaw = 0.f;
 		float_t angle_pitch1 = 0.f;
 		float_t angle_pitch2 = 0.f;
@@ -63,6 +82,7 @@ public:
 
 	// 控制器通信设备指针
 	CDevControllerLink *pcontrollerLink_ = nullptr;
+	CDevFourButton *pbuttons_ = nullptr; ///< 按键设备指针
 
 private:
 
@@ -81,8 +101,14 @@ private:
 
 	// 更新发送数据包 ControllerData
 	void UpdateControllerDataPkg_();
-	// 更新按键状态
-	void UpdateButtonStatus_();
+	/*更新按键信息*/
+	void UpdateButtonInfo_();
+
+	/*根据难度等级来更新键鼠信息*/
+	EAppStatus Level4Move_();
+	EAppStatus Level3Move_();
+	EAppStatus Mouse_move_(uint16_t pos_x, uint16_t pos_y, uint8_t mouse_left, uint8_t mouse_right);
+	EAppStatus KeyBoard_move_(uint8_t key_value1, uint8_t key_value2);
 
 };
 

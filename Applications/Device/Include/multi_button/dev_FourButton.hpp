@@ -50,7 +50,6 @@ public:
   static void ButtonLongPressCallback(void *btn);
 
   EAppStatus InitDevice(const SDevInitParam_Base *pStructInitParam) override;
-protected:
 
   static bool isReset;
   static bool isLevel4;

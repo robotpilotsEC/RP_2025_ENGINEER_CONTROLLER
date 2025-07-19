@@ -49,20 +49,20 @@ EAppStatus InitAllDevice(){
     fourButton_initparam.deviceID = EDeviceID::DEV_MULTI_BUTTON;
     fourButton_initparam.buttons_[0].buttonID = CDevFourButton::EButtonID::RESET_BUTTON;
     fourButton_initparam.buttons_[0].activeLevel = 1;
-    // fourButton_initparam.buttons_[0].halGpioPort = BUTTON_1_GPIO_Port;
-    // fourButton_initparam.buttons_[0].halGpioPin = BUTTON_1_Pin;
+    fourButton_initparam.buttons_[0].halGpioPort = RESET_BUTTON_GPIO_Port;
+    fourButton_initparam.buttons_[0].halGpioPin = RESET_BUTTON_Pin;
     fourButton_initparam.buttons_[1].buttonID = CDevFourButton::EButtonID::LEVEL_4_BUTTON;
     fourButton_initparam.buttons_[1].activeLevel = 1;
-    // fourButton_initparam.buttons_[1].halGpioPort = BUTTON_2_GPIO_Port;
-    // fourButton_initparam.buttons_[1].halGpioPin = BUTTON_2_Pin;
+    fourButton_initparam.buttons_[1].halGpioPort = LEVEL4_BUTTON_GPIO_Port;
+    fourButton_initparam.buttons_[1].halGpioPin = LEVEL4_BUTTON_Pin;
     fourButton_initparam.buttons_[2].buttonID = CDevFourButton::EButtonID::LEVEL_3_BUTTON;
     fourButton_initparam.buttons_[2].activeLevel = 1;
-    // fourButton_initparam.buttons_[2].halGpioPort = BUTTON_3_GPIO_Port
-    // fourButton_initparam.buttons_[2].halGpioPin = BUTTON_3_Pin;
+    fourButton_initparam.buttons_[2].halGpioPort = LEVEL3_BUTTON_GPIO_Port;
+    fourButton_initparam.buttons_[2].halGpioPin = LEVEL3_BUTTON_Pin;
     fourButton_initparam.buttons_[3].buttonID = CDevFourButton::EButtonID::SELF_BUTTON;
     fourButton_initparam.buttons_[3].activeLevel = 1;
-    // fourButton_initparam.buttons_[3].halGpioPort = BUTTON_4_GPIO_Port
-    // fourButton_initparam.buttons_[3].halGpioPin = BUTTON_4_Pin;
+    fourButton_initparam.buttons_[3].halGpioPort = SELF_BUTTON_GPIO_Port;
+    fourButton_initparam.buttons_[3].halGpioPin = SELF_BUTTON_Pin;
     fourButton.InitDevice(&fourButton_initparam);
 
     // 摇杆
@@ -72,8 +72,8 @@ EAppStatus InitAllDevice(){
     rocker_initparam.interfaceID = EInterfaceID::INF_ADC1;
     rocker_initparam.X_channel = CInfADC::EAdcChannel::CHANNEL_14;
     rocker_initparam.Y_channel = CInfADC::EAdcChannel::CHANNEL_16;
-    rocker_initparam.halGpioPort = rocker_KEY_GPIO_Port;
-    rocker_initparam.halGpioPin = rocker_KEY_Pin;
+    // rocker_initparam.halGpioPort = rocker_KEY_GPIO_Port;
+    // rocker_initparam.halGpioPin = rocker_KEY_Pin;
     rocker.InitDevice(&rocker_initparam);
 
     // 蜂鸣器

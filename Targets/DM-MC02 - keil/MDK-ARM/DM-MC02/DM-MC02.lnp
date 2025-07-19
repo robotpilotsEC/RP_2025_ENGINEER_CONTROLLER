@@ -49,7 +49,6 @@
 "dm-mc02\dma.o"
 "dm-mc02\fdcan.o"
 "dm-mc02\iwdg.o"
-"dm-mc02\memorymap.o"
 "dm-mc02\spi.o"
 "dm-mc02\tim.o"
 "dm-mc02\usart.o"
