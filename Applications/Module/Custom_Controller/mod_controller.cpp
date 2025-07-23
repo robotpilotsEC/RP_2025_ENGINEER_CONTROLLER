@@ -68,6 +68,7 @@ void CModController::UpdateHandler_() {
 	// comRocker_.UpdateComponent();
 	comBuzzer_.UpdateComponent();
 
+
 	// 更新模块信息
 	// ControllerInfo.rocker_X = -static_cast<int8_t>(comRocker_.rockerInfo.X / (CONTROLLER_ROCKER_RANGE / 2.0f) * 100.0f);
 	// ControllerInfo.rocker_Y = -static_cast<int8_t>(comRocker_.rockerInfo.Y / (CONTROLLER_ROCKER_RANGE / 2.0f) * 100.0f);

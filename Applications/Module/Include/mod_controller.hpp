@@ -37,7 +37,7 @@
 /*----------------------------------Roll--------------------------------------------------------*/
 #define CONTROLLER_ROLL_END_MOTOR_RANGE 0.0f
 #define CONTROLLER_ROLL_END_PHYSICAL_RANGE 0.0f
-#define CONTROLLER_ROLL_END_MOTOR_OFFSET 5557
+#define CONTROLLER_ROLL_END_MOTOR_OFFSET -3778
 /*----------------------------------Pitch_End-----------------------------------------------*/
 #define CONTROLLER_PITCH_END_PHYSICAL_RANGE_MAX 145.0f
 #define CONTROLLER_PITCH_END_PHYSICAL_RANGE_MIN -60.0f

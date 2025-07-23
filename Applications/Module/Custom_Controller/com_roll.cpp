@@ -86,7 +86,7 @@ EAppStatus CModController::CComRoll::UpdateComponent() {
                 componentStatus = APP_OK;
                 return APP_OK;
             }
-            rollCmd.setPosit += 100;
+            rollCmd.setPosit -= 100;
             return _UpdateOutput(static_cast<float_t>(rollCmd.setPosit));
         }
 
